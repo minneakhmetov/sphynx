@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"
+    enabled: true
+
+spring:
+  datasource:
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:coordinator.db
+  jooq:
+    sql-dialect: SQLITE
+  security:
+    jwt:
+      uri: "/auth/**"
+      header: "Authorization"
+      secret: "JwtSecretKey"
+      expiration: 24 * 60 * 60
+  application:
+    name: coordinator

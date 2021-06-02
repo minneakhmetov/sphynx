@@ -1,0 +1,113 @@
+version: '3.3'
+
+services:
+
+  coordinator:
+    build:
+      context: coordinator
+      dockerfile: Dockerfile
+    container_name: coordinator
+    restart: always
+    networks:
+      - cloud
+    environment:
+      - "spring.datasource.url=jdbc:sqlite:/db/coordinator.db"
+      - "sphynx.host=coordinator"
+      - "sphynx.allowedOrigin=https://sphynx.razzzil.com"
+      - "server.port=8080"
+    volumes:
+      - db:/db
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+  worker:
+    build:
+      context: worker
+      dockerfile: Dockerfile
+    container_name: worker
+    restart: always
+    networks:
+      - cloud
+    environment:
+      - "sphynx.access.key=eyJjb29yZGluYXRvckhvc3QiOiJjb29yZGluYXRvciIsImtleSI6InBaclZFYlNuU0laSGxzeEFNNGpvZVpJTmM2V3JCMWNvMDV3dmxINXFKaG89Iiwid29ya2VyQ29uZmlndXJhdGlvbk1vZGVsIjp7ImlkIjozNSwidG9rZW4iOiJhNTZlNjk0Mi1hYjIwLTExZWItYmNiYy0wMjQyYWMxMzAwMDIiLCJ2ZXJzaW9uIjoiMS4wLjAifX0="
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - front:/opt/front
+    ports:
+      - "80:80"
+      - "443:443"
+    container_name: nginx
+    restart: always
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    networks:
+      - cloud
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+      - www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    networks:
+      - cloud
+    container_name: certbot
+    restart: always
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+  database:
+    image: postgres:12.3
+    container_name: database
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 3Ux8sS5Sn67Fh43H
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - cloud
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "10m"
+
+volumes:
+  letsencrypt:
+    external: true
+  www:
+    external: true
+  db:
+    external: true
+  front:
+    external: true
+  postgres:
+    external: true
+
+networks:
+  cloud:
+    external: true

@@ -1,0 +1,11 @@
+spring:
+  main:
+    web-application-type: NONE
+
+sphynx:
+  maxTestsSameTime: 4
+  maxSqlExecutionTimeout: 10
+  maxOverdueTime: 86400
+  access:
+    key: eyJjb29yZGluYXRvckhvc3QiOiJsb2NhbGhvc3QiLCJrZXkiOiIzZFh2WEtNNmlpYm5sNk02UGNPSnUwK0Q2aDRDbWpTNnRHRkllOUlaSFAwPSIsIndvcmtlckNvbmZpZ3VyYXRpb25Nb2RlbCI6eyJpZCI6MzUsInRva2VuIjoiYTU2ZTY5NDItYWIyMC0xMWViLWJjYmMtMDI0MmFjMTMwMDAyIiwidmVyc2lvbiI6IjEuMC4wIn19
+  port: 1999

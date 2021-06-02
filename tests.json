@@ -1,0 +1,84 @@
+[
+  {
+    "id": 1,
+    "userId": 1,
+    "databaseId": 1,
+    "name": "DB test",
+    "state": "CREATED",
+    "databaseType": "POSTGRESQL",
+    "config": {
+      "testingType": "STEPPED",
+      "steps": 12,
+      "vacuum": true,
+      "recursive": true,
+      "clients": null,
+      "reconnect": false,
+      "scaleIncrement": "*1",
+      "clientsIncrement": "*1",
+      "timeLimitIncrement": "*1",
+      "iterations": [
+        {
+          "id": 12,
+          "number": 1,
+          "clean": false,
+          "sql": "SELECT 1",
+          "clients": 12,
+          "timeLimit": 1000,
+          "scale": 1,
+          "transactional": true
+        },
+        {
+          "id": 13,
+          "number": 2,
+          "clean": true,
+          "sql": "SELECT 1",
+          "clients": 12,
+          "timeLimit": 1000,
+          "scale": 1,
+          "transactional": true
+        }
+      ]
+    }
+  },
+  {
+    "id": 1,
+    "userId": 1,
+    "databaseId": 1,
+    "name": "DB test",
+    "state": "CREATED",
+    "databaseType": "POSTGRESQL",
+    "config": {
+      "testingType": "TIMED",
+      "timeLimit": 1000,
+      "vacuum": true,
+      "recursive": true,
+      "clients": null,
+      "reconnect": false,
+      "scaleIncrement": "*1",
+      "clientsIncrement": "*1",
+      "timeLimitIncrement": "*1",
+      "iterations": [
+        {
+          "id": 12,
+          "number": 1,
+          "clean": false,
+          "sql": "SELECT 1",
+          "clients": 12,
+          "timeLimit": 1000,
+          "scale": 1,
+          "transactional": true
+        },
+        {
+          "id": 13,
+          "number": 2,
+          "clean": true,
+          "sql": "SELECT 1",
+          "clients": 12,
+          "timeLimit": 1000,
+          "scale": 1,
+          "transactional": true
+        }
+      ]
+    }
+  }
+]
